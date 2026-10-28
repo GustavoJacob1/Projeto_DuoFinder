@@ -1,0 +1,556 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #0A1A3A;
+    color: #EAF2FF;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+h1, h2, h3 {
+    margin: 0;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    color: #6BE3F8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.texto-apagado {
+    color: #8EA8D2;
+}
+
+.sobretitulo {
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6BE3F8;
+}
+
+.topo {
+    position: sticky;
+    top: 0;
+    background-color: #11264F;
+    border-bottom: 1px solid #24447E;
+}
+
+.topo .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #EAF2FF;
+}
+
+.logo:hover {
+    text-decoration: none;
+}
+
+.icone {
+    width: 22px;
+    height: 22px;
+    fill: none;
+}
+
+.logo-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #FFC83D;
+    color: #0A1A3A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.logo:hover .logo-icone {
+    transform: rotate(-8deg);
+}
+
+.logo-texto small {
+    display: block;
+    font-size: 10px;
+    color: #8EA8D2;
+    line-height: 1;
+}
+
+.logo-texto b {
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 22px;
+    line-height: 1.1;
+}
+
+.logo-texto em {
+    font-style: normal;
+    color: #FFC83D;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.menu a {
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: #C2D4F0;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.menu a:hover {
+    background-color: #193466;
+    color: #EAF2FF;
+    text-decoration: none;
+}
+
+.menu a.ativo {
+    background-color: rgba(56, 217, 245, 0.16);
+    color: #6BE3F8;
+}
+
+.acoes-topo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.usuario-logado {
+    font-size: 14px;
+    font-weight: 600;
+    color: #C2D4F0;
+}
+
+.botao {
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.botao:active {
+    transform: scale(0.97);
+}
+
+.botao-principal {
+    background-color: #FFC83D;
+    color: #0A1A3A;
+}
+
+.botao-principal:hover {
+    background-color: #FFD466;
+    box-shadow: 0 8px 20px rgba(255, 200, 61, 0.3);
+}
+
+.botao-secundario {
+    background-color: #193466;
+    color: #EAF2FF;
+    border-color: #3A62A8;
+}
+
+.botao-secundario:hover {
+    border-color: #38D9F5;
+    background-color: #21407A;
+}
+
+.botao-simples {
+    background-color: transparent;
+    color: #C2D4F0;
+}
+
+.botao-simples:hover {
+    background-color: #193466;
+    color: #EAF2FF;
+}
+
+.botao-discord {
+    background-color: #5865F2;
+    color: #FFFFFF;
+}
+
+.botao-discord:hover {
+    background-color: #6D78F5;
+    box-shadow: 0 8px 20px rgba(88, 101, 242, 0.35);
+}
+
+.botao-grande {
+    padding: 14px 24px;
+    font-size: 16px;
+}
+
+.botao-inteiro {
+    width: 100%;
+}
+
+.botao:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.avatar {
+    width: 52px;
+    height: 52px;
+    border: 2px solid #FFC83D;
+    border-radius: 50%;
+    background-color: rgba(255, 200, 61, 0.16);
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.divisao {
+    display: inline-block;
+    padding: 2px 10px;
+    border: 1px solid;
+    border-radius: 20px;
+    color: #4FE3C9;
+    background-color: rgba(79, 227, 201, 0.12);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.lenda {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px 4px 4px;
+    border: 1px solid #24447E;
+    border-radius: 10px;
+    background-color: #193466;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.inicial {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-color: rgba(255, 200, 61, 0.16);
+    color: #FFC83D;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.rotulo {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8EA8D2;
+}
+
+.lendas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.hero {
+    background-color: #1E314F;
+    background-image: url('../img/banner-brawlhalla-home.jpg');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% auto;
+    padding-top: 33%;
+    padding-bottom: 80px;
+}
+
+.hero .container {
+    display: flex;
+    align-items: flex-end;
+    gap: 48px;
+}
+
+.hero-texto {
+    flex: 1;
+}
+
+.hero-texto h1 {
+    font-size: 60px;
+    line-height: 1.05;
+    margin: 20px 0;
+    text-shadow: 0 2px 16px rgba(4, 10, 26, 0.6);
+}
+
+.hero-texto h1 em {
+    font-style: normal;
+    color: #FFC83D;
+}
+
+.hero-texto p {
+    max-width: 540px;
+    font-size: 18px;
+    color: #D3E0F5;
+    text-shadow: 0 2px 16px rgba(4, 10, 26, 0.6);
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid rgba(255, 200, 61, 0.45);
+    border-radius: 20px;
+    background-color: rgba(255, 200, 61, 0.18);
+    color: #FFC83D;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.botoes-hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 28px 0;
+}
+
+.numeros {
+    display: flex;
+    gap: 40px;
+}
+
+.numeros b {
+    display: block;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 28px;
+}
+
+.numeros span {
+    font-size: 14px;
+    color: #D3E0F5;
+}
+
+.card-dupla {
+    width: 420px;
+    padding: 28px;
+    border: 1px solid #24447E;
+    border-radius: 24px;
+    background-color: #11264F;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s;
+}
+
+.card-dupla:hover {
+    transform: translateY(-4px);
+}
+
+.dupla {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.dupla-jogador {
+    flex: 1;
+    padding: 20px 12px;
+    border-radius: 16px;
+    background-color: #193466;
+    text-align: center;
+}
+
+.dupla-jogador .avatar {
+    margin: 0 auto 8px;
+}
+
+.dupla-jogador b {
+    display: block;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 22px;
+}
+
+.duo {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: #38D9F5;
+    color: #0A1A3A;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.barra-compat {
+    height: 8px;
+    margin: 8px 0 16px;
+    border-radius: 4px;
+    background-color: #193466;
+}
+
+.barra-compat div {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #3DDC97;
+}
+
+.secao {
+    padding: 80px 0;
+}
+
+.secao-clara {
+    background-color: #11264F;
+}
+
+.titulo-secao {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.titulo-secao h2 {
+    font-size: 36px;
+    margin: 10px 0;
+}
+
+.passos {
+    display: flex;
+    gap: 24px;
+}
+
+.passo {
+    flex: 1;
+    padding: 28px;
+    border: 1px solid #24447E;
+    border-radius: 20px;
+    background-color: #0A1A3A;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.passo:hover {
+    transform: translateY(-6px);
+    border-color: #38D9F5;
+}
+
+.passo .numero {
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: #3A62A8;
+}
+
+.passo h3 {
+    margin-bottom: 8px;
+}
+
+.passo p {
+    color: #C2D4F0;
+}
+
+.chamada {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 48px;
+    border: 1px solid #24447E;
+    border-radius: 24px;
+    background-color: #071330;
+}
+
+.chamada h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.rodape {
+    padding: 32px 0;
+    border-top: 1px solid #24447E;
+    font-size: 14px;
+    color: #8EA8D2;
+}
+
+.rodape p {
+    margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+    .hero .container,
+    .passos {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .card-dupla {
+        width: 100%;
+        position: static;
+    }
+
+    .hero-texto h1 {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 600px) {
+    .chamada {
+        padding: 20px;
+    }
+
+    .numeros {
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+
+    .dupla {
+        flex-direction: column;
+    }
+
+    .dupla-jogador {
+        width: 100%;
+    }
+}
