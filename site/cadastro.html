@@ -11,12 +11,11 @@
     <link rel="stylesheet" href="css/cadastro.css">
 </head>
 
-<body>
+<body onload="montarLendas()">
     <header class="topo">
         <div class="container">
             <a class="logo" href="index.html">
                 <span class="logo-icone">
-                    <!-- logo: duas espadas cruzadas (desenho em SVG) -->
                     <svg class="icone" viewBox="0 0 24 24">
                         <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" /><line x1="13" x2="19" y1="19" y2="13" /><line x1="16" x2="20" y1="16" y2="20" /><line x1="19" x2="21" y1="21" y2="19" />
                         <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" /><line x1="5" x2="9" y1="14" y2="18" /><line x1="7" x2="4" y1="17" y2="20" /><line x1="3" x2="5" y1="19" y2="21" />
@@ -82,20 +81,7 @@
 
             <span class="titulo-campo">Lendas favoritas (até 3)</span>
             <span class="contador" id="span_contador">0 de 3 escolhidas</span>
-            <div class="lista-lendas">
-                <label><input type="checkbox" id="chk_hattori" value="Hattori" onchange="contarLendas()"><span><b class="inicial cor0">H</b>Hattori</span></label>
-                <label><input type="checkbox" id="chk_orion" value="Orion" onchange="contarLendas()"><span><b class="inicial cor1">O</b>Orion</span></label>
-                <label><input type="checkbox" id="chk_kor" value="Kor" onchange="contarLendas()"><span><b class="inicial cor2">K</b>Kor</span></label>
-                <label><input type="checkbox" id="chk_val" value="Val" onchange="contarLendas()"><span><b class="inicial cor0">V</b>Val</span></label>
-                <label><input type="checkbox" id="chk_ember" value="Ember" onchange="contarLendas()"><span><b class="inicial cor1">E</b>Ember</span></label>
-                <label><input type="checkbox" id="chk_jhala" value="Jhala" onchange="contarLendas()"><span><b class="inicial cor2">J</b>Jhala</span></label>
-                <label><input type="checkbox" id="chk_ada" value="Ada" onchange="contarLendas()"><span><b class="inicial cor0">A</b>Ada</span></label>
-                <label><input type="checkbox" id="chk_teros" value="Teros" onchange="contarLendas()"><span><b class="inicial cor1">T</b>Teros</span></label>
-                <label><input type="checkbox" id="chk_koji" value="Koji" onchange="contarLendas()"><span><b class="inicial cor2">K</b>Koji</span></label>
-                <label><input type="checkbox" id="chk_bodvar" value="Bödvar" onchange="contarLendas()"><span><b class="inicial cor0">B</b>Bödvar</span></label>
-                <label><input type="checkbox" id="chk_mordex" value="Mordex" onchange="contarLendas()"><span><b class="inicial cor1">M</b>Mordex</span></label>
-                <label><input type="checkbox" id="chk_artemis" value="Artemis" onchange="contarLendas()"><span><b class="inicial cor2">A</b>Artemis</span></label>
-            </div>
+            <div class="lista-lendas" id="div_lendas"></div>
 
             <hr>
             <h2>3. Contato e preferências</h2>
@@ -114,8 +100,8 @@
                     </select>
                 </div>
             </div>
-            <label class="opcao"><input type="checkbox" id="chk_mostrar_discord" checked> Mostrar meu Discord para outros jogadores</label>
-            <label class="opcao"><input type="checkbox" id="chk_termos"> Li e aceito os termos de uso do projeto</label>
+            <label class="opcao"><input type="checkbox" checked onchange="alternarDiscord()"> Mostrar meu Discord para outros jogadores</label>
+            <label class="opcao"><input type="checkbox" onchange="alternarTermos()"> Li e aceito os termos de uso do projeto</label>
 
             <hr>
             <div class="mensagem erro" id="div_mensagem"></div>
@@ -133,10 +119,57 @@
     </footer>
 
     <script>
-        // Lista com as Lendas marcadas (fica fora das funções para todas poderem usar)
+        let todasLendas = ['Hattori', 'Orion', 'Kor', 'Val', 'Ember', 'Jhala', 'Ada', 'Teros', 'Koji', 'Bödvar', 'Mordex', 'Artemis'];
+
         let lendas = [];
 
-        // Mostra a divisão enquanto a pessoa digita o Elo
+        let lendaClicada = '';
+
+        let mostrarDiscord = true;
+        let termos = false;
+
+        function montarLendas() {
+            for (let i = 0; i < todasLendas.length; i++) {
+                let nome = todasLendas[i];
+
+                div_lendas.innerHTML += `
+                    <label>
+                        <input type="checkbox" onchange="lendaClicada = '${nome}'; marcarLenda()">
+                        <span><b class="inicial cor${i % 3}">${nome[0]}</b>${nome}</span>
+                    </label>
+                `;
+            }
+        }
+
+        function marcarLenda() {
+            let novaLista = [];
+            let estavaNaLista = false;
+
+            for (let i = 0; i < lendas.length; i++) {
+                if (lendas[i] == lendaClicada) {
+                    estavaNaLista = true;
+                } else {
+                    novaLista.push(lendas[i]);
+                }
+            }
+
+            if (estavaNaLista == false) {
+                novaLista.push(lendaClicada);
+            }
+
+            lendas = novaLista;
+
+            span_contador.innerHTML = `${lendas.length} de 3 escolhidas`;
+        }
+
+        function alternarDiscord() {
+            mostrarDiscord = !mostrarDiscord;
+        }
+
+        function alternarTermos() {
+            termos = !termos;
+        }
+
         function mostrarDivisao() {
             let elo = Number(ipt_elo.value);
             let divisao = '';
@@ -162,51 +195,7 @@
                 classe = 'tin';
             }
 
-            span_divisao.innerHTML = '<span class="divisao ' + classe + '">' + divisao + '</span>';
-        }
-
-        // Olha cada caixinha e coloca as Lendas marcadas na lista
-        function contarLendas() {
-            lendas = [];
-
-            if (chk_hattori.checked) {
-                lendas.push('Hattori');
-            }
-            if (chk_orion.checked) {
-                lendas.push('Orion');
-            }
-            if (chk_kor.checked) {
-                lendas.push('Kor');
-            }
-            if (chk_val.checked) {
-                lendas.push('Val');
-            }
-            if (chk_ember.checked) {
-                lendas.push('Ember');
-            }
-            if (chk_jhala.checked) {
-                lendas.push('Jhala');
-            }
-            if (chk_ada.checked) {
-                lendas.push('Ada');
-            }
-            if (chk_teros.checked) {
-                lendas.push('Teros');
-            }
-            if (chk_koji.checked) {
-                lendas.push('Koji');
-            }
-            if (chk_bodvar.checked) {
-                lendas.push('Bödvar');
-            }
-            if (chk_mordex.checked) {
-                lendas.push('Mordex');
-            }
-            if (chk_artemis.checked) {
-                lendas.push('Artemis');
-            }
-
-            span_contador.innerHTML = lendas.length + ' de 3 escolhidas';
+            span_divisao.innerHTML = `<span class="divisao ${classe}">${divisao}</span>`;
         }
 
         function cadastrar() {
@@ -218,10 +207,6 @@
             let regiao = slc_regiao.value;
             let discord = ipt_discord.value;
             let horario = slc_horario.value;
-            let mostrarDiscord = chk_mostrar_discord.checked;
-            let termos = chk_termos.checked;
-
-            contarLendas();
 
             if (nick.length < 3) {
                 div_mensagem.innerHTML = 'O nickname precisa ter pelo menos 3 caracteres.';
