@@ -8,10 +8,10 @@
     <link rel="icon" href="img/logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;600;700&display=swap">
-    <link rel="stylesheet" href="css/cadastro.css">
+    <link rel="stylesheet" href="cadastro.css">
 </head>
 
-<body onload="montarLendas()">
+<body>
     <header class="topo">
         <div class="container">
             <a class="logo" href="index.html">
@@ -129,12 +129,19 @@
         let termos = false;
 
         function montarLendas() {
+            div_lendas.innerHTML = '';
+
             for (let i = 0; i < todasLendas.length; i++) {
                 let nome = todasLendas[i];
+                let marcada = '';
+
+                if (lendas.includes(nome)) {
+                    marcada = 'checked';
+                }
 
                 div_lendas.innerHTML += `
                     <label>
-                        <input type="checkbox" onchange="lendaClicada = '${nome}'; marcarLenda()">
+                        <input type="checkbox" ${marcada} onchange="lendaClicada = '${nome}'; marcarLenda()">
                         <span><b class="inicial cor${i % 3}">${nome[0]}</b>${nome}</span>
                     </label>
                 `;
@@ -153,13 +160,17 @@
                 }
             }
 
-            if (estavaNaLista == false) {
-                novaLista.push(lendaClicada);
+            if (estavaNaLista == false && lendas.length == 3) {
+                montarLendas();
+                span_contador.innerHTML = `3 de 3 escolhidas · Desmarque uma Lenda para trocar`;
+            } else {
+                if (estavaNaLista == false) {
+                    novaLista.push(lendaClicada);
+                }
+
+                lendas = novaLista;
+                span_contador.innerHTML = `${lendas.length} de 3 escolhidas`;
             }
-
-            lendas = novaLista;
-
-            span_contador.innerHTML = `${lendas.length} de 3 escolhidas`;
         }
 
         function alternarDiscord() {
@@ -246,6 +257,8 @@
                 div_mensagem.innerHTML = 'Conta criada! Agora é só entrar com seu e-mail e senha.';
             }
         }
+
+        montarLendas();
     </script>
 </body>
 
