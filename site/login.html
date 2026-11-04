@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar | DuoFinder</title>
+    <link rel="icon" href="img/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <div class="login">
+        <section class="login-painel">
+            <span class="login-fundo">2v2</span>
+            <a class="logo" href="index.html">
+                <span class="logo-icone">
+                    <!-- logo: duas espadas cruzadas (desenho em SVG) -->
+                    <svg class="icone" viewBox="0 0 24 24">
+                        <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" /><line x1="13" x2="19" y1="19" y2="13" /><line x1="16" x2="20" y1="16" y2="20" /><line x1="19" x2="21" y1="21" y2="19" />
+                        <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" /><line x1="5" x2="9" y1="14" y2="18" /><line x1="7" x2="4" y1="17" y2="20" /><line x1="3" x2="5" y1="19" y2="21" />
+                    </svg>
+                </span>
+                <span class="logo-texto"><small>BRAWLHALLA</small><b>Duo<em>Finder</em></b></span>
+            </a>
+
+            <div class="login-boas-vindas">
+                <span class="sobretitulo">Bem-vindo de volta</span>
+                <h1>Sua dupla do 2v2 está te esperando.</h1>
+                <p>Entre para ver jogadores com Elo próximo ao seu e continuar de onde parou.</p>
+
+                <div class="card-jogador">
+                    <div class="card-topo">
+                        <div class="avatar">LU</div>
+                        <div class="card-nome">
+                            <h3>Lunna</h3>
+                            <span>BRZ</span>
+                        </div>
+                        <div class="card-compat"><b>93%</b><span>compatível</span></div>
+                    </div>
+                    <div class="card-elo">
+                        <div><small>Elo 2v2</small><b>1902</b></div>
+                        <div class="direita"><span class="divisao platina">Platina</span><small>+82 de Elo</small></div>
+                    </div>
+                    <div>
+                        <span class="rotulo">Lendas favoritas</span>
+                        <div class="lendas">
+                            <span class="lenda"><b class="inicial cor0">A</b>Ada</span>
+                            <span class="lenda"><b class="inicial cor1">T</b>Teros</span>
+                            <span class="lenda"><b class="inicial cor2">K</b>Koji</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="rodape-painel">Projeto Individual · SPTech ADS · 2026</p>
+        </section>
+
+        <section class="login-formulario">
+            <div class="formulario">
+                <h2>Entrar na sua conta</h2>
+                <p>Ainda não tem conta? <a href="cadastro.html">Criar conta</a></p>
+
+                <div class="campo">
+                    <label for="ipt_email">E-mail</label>
+                    <input type="email" id="ipt_email" placeholder="voce@email.com">
+                </div>
+
+                <div class="campo">
+                    <label for="ipt_senha">Senha</label>
+                    <div class="senha-linha">
+                        <input type="password" id="ipt_senha" placeholder="Sua senha">
+                        <button class="botao botao-secundario" id="btn_mostrar" onclick="mostrarSenha()">Mostrar</button>
+                    </div>
+                </div>
+
+                <div class="mensagem erro" id="div_mensagem"></div>
+
+                <button class="botao botao-principal botao-grande botao-inteiro" onclick="entrar()">Entrar</button>
+                <br><br>
+                <div class="aviso">Seu e-mail nunca aparece para outros jogadores. Só o Discord, e apenas se você permitir.</div>
+
+                <div class="conta-teste">
+                    <span>Conta de teste: <b>jacob@email.com</b> · <b>duofinder2v2</b></span>
+                    <button class="botao botao-simples" onclick="preencherTeste()">Preencher</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Enquanto não temos API, o localStorage faz o papel do banco de dados.
+        // Se ainda não existe nenhuma conta salva, criamos a conta de teste.
+        if (localStorage.EMAIL == undefined) {
+            localStorage.EMAIL = 'jacob@email.com';
+            localStorage.SENHA = 'duofinder2v2';
+            localStorage.NICK = 'Jacob';
+            localStorage.ELO = '1820';
+            localStorage.REGIAO = 'BRZ';
+            localStorage.LENDAS = 'Hattori,Orion,Kor';
+            localStorage.DISCORD = 'jacob.bh';
+            localStorage.MOSTRAR_DISCORD = 'sim';
+            localStorage.HORARIO = 'Noite';
+            localStorage.BIO = 'Voltando ao ranqueado 2v2 e procurando dupla fixa para jogar à noite.';
+        }
+
+        function entrar() {
+            let email = ipt_email.value;
+            let senha = ipt_senha.value;
+
+            if (email == '' || senha == '') {
+                div_mensagem.innerHTML = 'Preencha o e-mail e a senha.';
+            } else if (email.includes('@') == false) {
+                div_mensagem.innerHTML = 'Digite um e-mail válido.';
+            } else if (email == localStorage.EMAIL && senha == localStorage.SENHA) {
+                // Guarda os dados de quem entrou. Com a API, esses dados vão vir da resposta do servidor.
+                sessionStorage.EMAIL_USUARIO = localStorage.EMAIL;
+                sessionStorage.NICK_USUARIO = localStorage.NICK;
+                sessionStorage.ELO_USUARIO = localStorage.ELO;
+                sessionStorage.REGIAO_USUARIO = localStorage.REGIAO;
+                sessionStorage.LENDAS_USUARIO = localStorage.LENDAS;
+                sessionStorage.DISCORD_USUARIO = localStorage.DISCORD;
+                sessionStorage.MOSTRAR_DISCORD_USUARIO = localStorage.MOSTRAR_DISCORD;
+                sessionStorage.HORARIO_USUARIO = localStorage.HORARIO;
+                sessionStorage.BIO_USUARIO = localStorage.BIO;
+
+                div_mensagem.innerHTML = 'Login feito! Bem-vindo, ' + localStorage.NICK + '.';
+            } else {
+                div_mensagem.innerHTML = 'E-mail ou senha incorretos.';
+            }
+        }
+
+        function preencherTeste() {
+            ipt_email.value = 'jacob@email.com';
+            ipt_senha.value = 'duofinder2v2';
+            div_mensagem.innerHTML = '';
+        }
+
+        function mostrarSenha() {
+            if (ipt_senha.type == 'password') {
+                ipt_senha.type = 'text';
+                btn_mostrar.innerHTML = 'Ocultar';
+            } else {
+                ipt_senha.type = 'password';
+                btn_mostrar.innerHTML = 'Mostrar';
+            }
+        }
+    </script>
+</body>
+
+</html>

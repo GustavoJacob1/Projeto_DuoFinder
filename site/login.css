@@ -1,0 +1,546 @@
+/* ==========================================================
+   DuoFinder - estilos da página: Entrar (login) (login.html)
+
+   Cores usadas (identidade do Brawlhalla):
+   #0A1A3A  fundo da página
+   #071330  fundo do painel do login
+   #11264F  fundo dos cards
+   #193466  caixas dentro dos cards
+   #0D2047  fundo dos campos de formulário
+   #24447E  bordas
+   #3A62A8  bordas em destaque
+   #EAF2FF  texto principal
+   #C2D4F0  texto secundário
+   #8EA8D2  texto apagado
+   #38D9F5  ciano (destaques)
+   #FFC83D  dourado (botão principal)
+   #3DDC97  verde (compatibilidade e sucesso)
+   #FF6B7A  vermelho (erros)
+   #5865F2  roxo do Discord
+   ========================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #0A1A3A;
+    color: #EAF2FF;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+h1, h2, h3 {
+    margin: 0;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+}
+
+p {
+    margin: 0;
+}
+
+a {
+    color: #6BE3F8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.sobretitulo {
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #6BE3F8;
+}
+
+/* ---------- Topo (menu) ---------- */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #EAF2FF;
+}
+
+.logo:hover {
+    text-decoration: none;
+}
+
+/* Ícones desenhados em SVG (logo e indicadores do dashboard) */
+
+.icone {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor; /* o desenho usa a cor do texto */
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.logo-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #FFC83D;
+    color: #0A1A3A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.logo:hover .logo-icone {
+    transform: rotate(-8deg);
+}
+
+.logo-texto small {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #8EA8D2;
+    line-height: 1;
+}
+
+.logo-texto b {
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 22px;
+    line-height: 1.1;
+}
+
+.logo-texto em {
+    font-style: normal;
+    color: #FFC83D;
+}
+
+/* ---------- Botões ---------- */
+
+.botao {
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.botao:active {
+    transform: scale(0.97);
+}
+
+.botao-principal {
+    background-color: #FFC83D;
+    color: #0A1A3A;
+}
+
+.botao-principal:hover {
+    background-color: #FFD466;
+    box-shadow: 0 8px 20px rgba(255, 200, 61, 0.3);
+}
+
+.botao-secundario {
+    background-color: #193466;
+    color: #EAF2FF;
+    border-color: #3A62A8;
+}
+
+.botao-secundario:hover {
+    border-color: #38D9F5;
+    background-color: #21407A;
+}
+
+.botao-simples {
+    background-color: transparent;
+    color: #C2D4F0;
+}
+
+.botao-simples:hover {
+    background-color: #193466;
+    color: #EAF2FF;
+}
+
+.botao-grande {
+    padding: 14px 24px;
+    font-size: 16px;
+}
+
+.botao-inteiro {
+    width: 100%;
+}
+
+.botao:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ---------- Formulários ---------- */
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.campo label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #C2D4F0;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #24447E;
+    border-radius: 10px;
+    background-color: #0D2047;
+    color: #EAF2FF;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 15px;
+    transition: border-color 0.2s;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    outline: none;
+    border-color: #38D9F5;
+}
+
+.campo textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.senha-linha {
+    display: flex;
+    gap: 8px;
+}
+
+/* Botões de escolher Lenda (cadastro e meu perfil).
+   A caixinha de marcar fica escondida e o span faz o papel de botão. */
+
+/* Quando a caixinha está marcada, o span que vem logo depois dela fica em destaque */
+
+.mensagem {
+    min-height: 22px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.erro {
+    color: #FF6B7A;
+}
+
+.aviso {
+    padding: 14px;
+    border: 1px solid rgba(255, 200, 61, 0.35);
+    border-radius: 12px;
+    background-color: #193466;
+    font-size: 14px;
+    color: #C2D4F0;
+}
+
+/* ---------- Peças dos cards ---------- */
+
+.avatar {
+    width: 52px;
+    height: 52px;
+    border: 2px solid #FFC83D;
+    border-radius: 50%;
+    background-color: rgba(255, 200, 61, 0.16);
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Divisões do ranqueado */
+
+.divisao {
+    display: inline-block;
+    padding: 2px 10px;
+    border: 1px solid;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tin { color: #AAB4C8; background-color: rgba(170, 180, 200, 0.14); }
+
+.bronze { color: #E8A06A; background-color: rgba(232, 160, 106, 0.14); }
+
+.prata { color: #D4DEEC; background-color: rgba(212, 222, 236, 0.12); }
+
+.ouro { color: #FFC83D; background-color: rgba(255, 200, 61, 0.14); }
+
+.platina { color: #4FE3C9; background-color: rgba(79, 227, 201, 0.12); }
+
+.diamante { color: #B4BEFF; background-color: rgba(180, 190, 255, 0.14); }
+
+.lenda {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px 4px 4px;
+    border: 1px solid #24447E;
+    border-radius: 10px;
+    background-color: #193466;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Quadradinho com a inicial da Lenda */
+
+.inicial {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.cor0 { background-color: rgba(255, 200, 61, 0.16); color: #FFC83D; }
+
+.cor1 { background-color: rgba(56, 217, 245, 0.16); color: #6BE3F8; }
+
+.cor2 { background-color: rgba(61, 220, 151, 0.14); color: #3DDC97; }
+
+/* ---------- Card de jogador ---------- */
+
+.card-jogador {
+    min-width: 0; /* deixa as 3 colunas da grade com a mesma largura */
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+    border: 1px solid #24447E;
+    border-radius: 16px;
+    background-color: #11264F;
+    color: #EAF2FF;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.card-jogador:hover {
+    transform: translateY(-4px);
+    border-color: #3A62A8;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+.card-topo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-nome {
+    flex: 1;
+}
+
+.card-nome h3 {
+    font-size: 20px;
+}
+
+.card-nome span {
+    font-size: 14px;
+    color: #8EA8D2;
+}
+
+.card-compat {
+    text-align: right;
+}
+
+.card-compat b {
+    display: block;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 22px;
+    color: #3DDC97;
+}
+
+.card-compat span {
+    font-size: 12px;
+    color: #8EA8D2;
+}
+
+.card-elo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background-color: #193466;
+}
+
+.card-elo small,
+.rotulo {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8EA8D2;
+}
+
+.card-elo b {
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 28px;
+}
+
+.card-elo .direita {
+    text-align: right;
+}
+
+.lendas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+/* ---------- Login ---------- */
+
+.login {
+    display: flex;
+    min-height: 100vh;
+}
+
+.login-painel {
+    position: relative;
+    overflow: hidden;
+    width: 46%;
+    padding: 56px 48px;
+    background-color: #071330;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* "2v2" gigante no fundo do painel */
+
+.login-fundo {
+    position: absolute;
+    right: -40px;
+    bottom: -70px;
+    font-family: 'Chakra Petch', Arial, sans-serif;
+    font-size: 300px;
+    font-weight: 700;
+    color: rgba(56, 217, 245, 0.1);
+}
+
+.login-boas-vindas {
+    position: relative;
+    max-width: 480px;
+}
+
+.login-boas-vindas .sobretitulo {
+    color: #FFC83D;
+}
+
+.login-boas-vindas h1 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin: 16px 0;
+}
+
+.login-boas-vindas p {
+    color: #D3E0F5;
+    font-size: 18px;
+}
+
+.login-boas-vindas .card-jogador {
+    max-width: 340px;
+    margin-top: 28px;
+}
+
+.rodape-painel {
+    position: relative;
+    font-size: 14px;
+    color: #D3E0F5;
+}
+
+.login-formulario {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+}
+
+.formulario {
+    width: 100%;
+    max-width: 420px;
+}
+
+.formulario h2 {
+    font-size: 28px;
+}
+
+.formulario > p {
+    margin: 8px 0 28px;
+    color: #8EA8D2;
+}
+
+.conta-teste {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 12px 14px;
+    border: 1px dashed #3A62A8;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #C2D4F0;
+}
+
+.conta-teste b {
+    color: #6BE3F8;
+}
+
+/* ---------- Celular e telas pequenas ---------- */
+
+@media (max-width: 900px) {
+    .login {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .login-painel {
+        width: 100%;
+        position: static;
+    }
+
+    .login-painel .card-jogador,
+    .login-fundo {
+        display: none;
+    }
+}
