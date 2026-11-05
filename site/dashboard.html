@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | DuoFinder</title>
+    <link rel="icon" href="img/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js: biblioteca que desenha os gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+</head>
+
+<body>
+    <header class="topo">
+        <div class="container">
+            <a class="logo" href="index.html">
+                <span class="logo-icone">
+                    <!-- logo: duas espadas cruzadas (desenho em SVG) -->
+                    <svg class="icone" viewBox="0 0 24 24">
+                        <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" /><line x1="13" x2="19" y1="19" y2="13" /><line x1="16" x2="20" y1="16" y2="20" /><line x1="19" x2="21" y1="21" y2="19" />
+                        <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" /><line x1="5" x2="9" y1="14" y2="18" /><line x1="7" x2="4" y1="17" y2="20" /><line x1="3" x2="5" y1="19" y2="21" />
+                    </svg>
+                </span>
+                <span class="logo-texto"><small>BRAWLHALLA</small><b>Duo<em>Finder</em></b></span>
+            </a>
+            <nav class="menu">
+                <a href="buscar.html">Buscar dupla</a>
+                <a href="dashboard.html" class="ativo">Dashboard</a>
+                <a href="meu-perfil.html">Meu perfil</a>
+            </nav>
+            <div class="acoes-topo">
+                <span class="usuario-logado" id="nome_usuario"></span>
+                <button class="botao botao-simples" onclick="sair()">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="titulo-pagina final-formulario">
+            <div>
+                <h1>Dashboard da comunidade</h1>
+                <p class="texto-apagado">Indicadores dos jogadores do DuoFinder (dados de exemplo)</p>
+            </div>
+            <div class="campo filtro-dashboard">
+                <label for="filtro_regiao">Região</label>
+                <select id="filtro_regiao" onchange="atualizarDashboard()">
+                    <option value="todas">Todas as regiões</option>
+                    <option value="BRZ">Brasil (BRZ)</option>
+                    <option value="US-E">EUA Leste (US-E)</option>
+                    <option value="EU">Europa (EU)</option>
+                    <option value="SA">África do Sul (SA)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="kpis">
+            <div class="kpi">
+                <div class="kpi-topo">
+                    <span class="kpi-icone">
+                        <svg class="icone" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                    </span>
+                    Jogadores cadastrados
+                </div>
+                <b id="kpi_total"></b>
+                <small>na região escolhida</small>
+            </div>
+
+            <!-- este indicador é um link: clicando, volta para a busca -->
+            <a class="kpi kpi-link" href="buscar.html" title="Ver esses jogadores na busca">
+                <div class="kpi-topo">
+                    <span class="kpi-icone">
+                        <svg class="icone" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>
+                    </span>
+                    Com Elo compatível com você
+                    <span class="seta">→</span>
+                </div>
+                <b id="kpi_compativeis"></b>
+                <small>até 150 de diferença de Elo</small>
+            </a>
+
+            <div class="kpi">
+                <div class="kpi-topo">
+                    <span class="kpi-icone">
+                        <svg class="icone" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></svg>
+                    </span>
+                    Elo médio da comunidade
+                </div>
+                <b id="kpi_media"></b>
+                <small id="kpi_media_divisao"></small>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-topo">
+                    <span class="kpi-icone">
+                        <svg class="icone" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></svg>
+                    </span>
+                    Com Discord disponível
+                </div>
+                <b id="kpi_discord"></b>
+                <small id="kpi_discord_total"></small>
+            </div>
+        </div>
+
+        <div class="graficos">
+            <div class="card">
+                <h2>Distribuição de Elo</h2>
+                <p>Jogadores por divisão no 2v2</p>
+                <div class="grafico"><canvas id="grafico_divisoes"></canvas></div>
+                <p class="legenda"><b>■</b> Sua divisão</p>
+            </div>
+            <div class="card">
+                <h2>Lendas mais escolhidas</h2>
+                <p>% de jogadores com a Lenda entre as favoritas</p>
+                <div class="grafico"><canvas id="grafico_lendas"></canvas></div>
+                <div class="legenda"><b>■</b> Suas Lendas:<div class="lendas" id="minhas_lendas"></div></div>
+            </div>
+        </div>
+
+        <div class="graficos ultimo">
+            <div class="card">
+                <h2>Jogadores por região</h2>
+                <p>Todos os jogadores cadastrados, de todas as regiões</p>
+                <div class="grafico"><canvas id="grafico_regioes"></canvas></div>
+                <p class="legenda" id="legenda_regiao"></p>
+            </div>
+            <div class="card">
+                <h2>Mais compatíveis com você</h2>
+                <p>Pelo seu Elo, região, Lendas e horário</p>
+                <ul class="lista-top" id="lista_top"></ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="container">
+            <b>DuoFinder</b> · Projeto Individual · SPTech · Análise e Desenvolvimento de Sistemas · 2026
+        </div>
+    </footer>
+
+    <script>
+        // Jogadores de exemplo. Com a API, esta lista vai vir do banco de dados (fetch).
+        let jogadores = [
+            { id: 1, nick: 'Zyphr', elo: 1865, regiao: 'BRZ', lendas: ['Hattori', 'Orion', 'Kor'], discord: 'zyphr.bh', horario: 'Noite', bio: 'Main Hattori há 3 temporadas. Procuro dupla fixa para chegar ao Diamante.' },
+            { id: 2, nick: 'Kaizen', elo: 1790, regiao: 'BRZ', lendas: ['Val', 'Ember', 'Jhala'], discord: 'kaizen_bh', horario: 'Noite', bio: 'Jogo mais de suporte e gosto de quem puxa a luta.' },
+            { id: 3, nick: 'Lunna', elo: 1902, regiao: 'BRZ', lendas: ['Ada', 'Teros', 'Koji'], discord: 'lunna.gg', horario: 'Tarde', bio: 'Ada main, foco em edgeguard. Quero chegar ao Diamante nesta temporada.' },
+            { id: 4, nick: 'ThunderBR', elo: 1748, regiao: 'BRZ', lendas: ['Kor', 'Mordex', 'Orion'], discord: 'thunderbr', horario: 'Noite', bio: 'Jogo desde 2018. Quero treinar combos de 2v2 e subir com calma.' },
+            { id: 5, nick: 'Mizuki', elo: 1933, regiao: 'BRZ', lendas: ['Artemis', 'Val', 'Koji'], discord: '', horario: 'Madrugada', bio: 'Prefiro jogar de madrugada. Ainda sem Discord, me chama dentro do jogo.' },
+            { id: 6, nick: 'RatoVeloz', elo: 1705, regiao: 'BRZ', lendas: ['Bödvar', 'Hattori', 'Ember'], discord: 'ratoveloz', horario: 'Tarde', bio: 'Rápido no dodge, ruim de recovery. Bora evoluir junto.' },
+            { id: 7, nick: 'Nox', elo: 1842, regiao: 'US-E', lendas: ['Koji', 'Val', 'Orion'], discord: 'nox.na', horario: 'Noite', bio: 'Brasileiro jogando no US-E. Falo português e inglês.' },
+            { id: 8, nick: 'Neblina', elo: 1797, regiao: 'BRZ', lendas: ['Val', 'Kor', 'Hattori'], discord: 'neblina.bh', horario: 'Noite', bio: 'Procuro dupla para jogar ranqueada à noite, sem estresse.' },
+            { id: 9, nick: 'Brick', elo: 2015, regiao: 'BRZ', lendas: ['Teros', 'Kor', 'Jhala'], discord: 'brick2v2', horario: 'Noite', bio: 'Diamante no 2v2. Topo treinar com quem está chegando lá.' },
+            { id: 10, nick: 'Sakura', elo: 1611, regiao: 'BRZ', lendas: ['Hattori', 'Ember', 'Ada'], discord: 'sakura.bh', horario: 'Noite', bio: 'Subindo do Ouro. Procuro alguém paciente para jogar junto.' },
+            { id: 11, nick: 'Titan', elo: 1580, regiao: 'BRZ', lendas: ['Kor', 'Hattori', 'Teros'], discord: 'titan_2v2', horario: 'Noite', bio: 'Treino todo dia. Procuro dupla fixa e comprometida.' },
+            { id: 12, nick: 'Vexa', elo: 1480, regiao: 'EU', lendas: ['Orion', 'Artemis', 'Ember'], discord: 'vexa_2v2', horario: 'Tarde', bio: 'Jogo no servidor EU, mas falo português.' },
+            { id: 13, nick: 'Kyubi', elo: 1320, regiao: 'BRZ', lendas: ['Hattori', 'Koji', 'Mordex'], discord: '', horario: 'Manhã', bio: 'Voltando a jogar depois de um tempo.' },
+            { id: 14, nick: 'Echo', elo: 1255, regiao: 'US-E', lendas: ['Jhala', 'Orion', 'Koji'], discord: 'echo.bh', horario: 'Madrugada', bio: 'Gosto de jogar agressivo. Quero alguém que segure a defesa.' },
+            { id: 15, nick: 'Mamute', elo: 1150, regiao: 'BRZ', lendas: ['Teros', 'Bödvar', 'Kor'], discord: 'mamute.bh', horario: 'Noite', bio: 'Jogador casual querendo levar o 2v2 mais a sério.' },
+            { id: 16, nick: 'Faisca', elo: 980, regiao: 'SA', lendas: ['Ember', 'Val', 'Ada'], discord: 'faisca.bh', horario: 'Tarde', bio: 'Começando no ranqueado. Bora aprender junto.' },
+            { id: 17, nick: 'Pixel', elo: 850, regiao: 'BRZ', lendas: ['Hattori', 'Orion', 'Artemis'], discord: 'pixel.bh', horario: 'Tarde', bio: 'Primeira temporada no ranqueado.' }
+        ];
+
+        // Dados de quem entrou na conta (foram guardados no login)
+        let meuNick = sessionStorage.NICK_USUARIO;
+        let meuElo = Number(sessionStorage.ELO_USUARIO);
+        let minhaRegiao = sessionStorage.REGIAO_USUARIO;
+        let meuHorario = sessionStorage.HORARIO_USUARIO;
+        let minhasLendas = sessionStorage.LENDAS_USUARIO; // exemplo: "Hattori,Orion,Kor"
+
+        let divisoes = ['Tin', 'Bronze', 'Prata', 'Ouro', 'Platina', 'Diamante'];
+        let nomesLendas = ['Hattori', 'Orion', 'Kor', 'Val', 'Ember', 'Jhala', 'Ada', 'Teros', 'Koji', 'Bödlet', 'Mordex', 'Artemis'];
+        let regioes = ['BRZ', 'US-E', 'EU', 'SA'];
+
+        // Cores das barras: normal e em destaque (o que é seu)
+        let corNormal = '#5B78AE';
+        let corDestaque = '#38D9F5';
+
+        // Configuração geral do Chart.js: cor do texto, cor das linhas e fonte
+        Chart.defaults.color = '#C2D4F0';
+        Chart.defaults.borderColor = '#1E3765';
+        Chart.defaults.font.family = 'Inter';
+        Chart.defaults.font.size = 13;
+
+        // Guardam os gráficos, para apagar o antigo antes de desenhar de novo quando o filtro muda
+        let graficoDivisoes = null;
+        let graficoLendas = null;
+        let graficoRegioes = null;
+
+        function calcularDivisao(elo) {
+            if (elo >= 2000) {
+                return 'Diamante';
+            } else if (elo >= 1680) {
+                return 'Platina';
+            } else if (elo >= 1390) {
+                return 'Ouro';
+            } else if (elo >= 1130) {
+                return 'Prata';
+            } else if (elo >= 910) {
+                return 'Bronze';
+            } else {
+                return 'Tin';
+            }
+        }
+
+        // Mesma regra da página de busca
+        function calcularCompatibilidade(jogador) {
+            let diferenca = Math.abs(jogador.elo - meuElo);
+            let pontos = 92 - diferenca / 10;
+
+            for (let i = 0; i < jogador.lendas.length; i++) {
+                if (minhasLendas.includes(jogador.lendas[i])) {
+                    pontos = pontos + 2;
+                }
+            }
+            if (jogador.horario == meuHorario) {
+                pontos = pontos + 2;
+            }
+            if (jogador.regiao != minhaRegiao) {
+                pontos = pontos - 8;
+            }
+
+            pontos = Math.round(pontos);
+            if (pontos > 99) {
+                pontos = 99;
+            }
+            if (pontos < 10) {
+                pontos = 10;
+            }
+            return pontos;
+        }
+
+        function atualizarDashboard() {
+            let regiao = document.getElementById('filtro_regiao').value;
+
+            // 1. Separa os jogadores da região escolhida
+            let lista = [];
+            for (let i = 0; i < jogadores.length; i++) {
+                if (regiao == 'todas' || jogadores[i].regiao == regiao) {
+                    lista.push(jogadores[i]);
+                }
+            }
+
+            mostrarKpis(lista);
+            mostrarDivisoes(lista);
+            mostrarLendas(lista);
+            mostrarMaisCompativeis(lista);
+            mostrarRegioes(regiao);
+        }
+
+        function mostrarKpis(lista) {
+            let compativeis = 0;
+            let somaElo = 0;
+            let comDiscord = 0;
+
+            for (let i = 0; i < lista.length; i++) {
+                if (Math.abs(lista[i].elo - meuElo) <= 150) {
+                    compativeis++;
+                }
+                somaElo = somaElo + lista[i].elo;
+                if (lista[i].discord != '') {
+                    comDiscord++;
+                }
+            }
+
+            let media = Math.round(somaElo / lista.length);
+            let porcentagemDiscord = Math.round(comDiscord / lista.length * 100);
+
+            document.getElementById('kpi_total').innerHTML = lista.length;
+            document.getElementById('kpi_compativeis').innerHTML = compativeis;
+            document.getElementById('kpi_media').innerHTML = media;
+            document.getElementById('kpi_media_divisao').innerHTML = 'equivale a ' + calcularDivisao(media);
+            document.getElementById('kpi_discord').innerHTML = porcentagemDiscord + '%';
+            document.getElementById('kpi_discord_total').innerHTML = comDiscord + ' jogadores';
+        }
+
+        // Gráfico de colunas: quantos jogadores tem em cada divisão
+        function mostrarDivisoes(lista) {
+            let contagem = [0, 0, 0, 0, 0, 0];
+            for (let i = 0; i < lista.length; i++) {
+                let posicao = divisoes.indexOf(calcularDivisao(lista[i].elo));
+                contagem[posicao]++;
+            }
+
+            // A sua divisão fica com a cor de destaque
+            let cores = [];
+            for (let i = 0; i < divisoes.length; i++) {
+                if (divisoes[i] == calcularDivisao(meuElo)) {
+                    cores.push(corDestaque);
+                } else {
+                    cores.push(corNormal);
+                }
+            }
+
+            if (graficoDivisoes != null) {
+                graficoDivisoes.destroy();
+            }
+            graficoDivisoes = new Chart(document.getElementById('grafico_divisoes'), {
+                type: 'bar',
+                data: {
+                    labels: divisoes,
+                    datasets: [{
+                        label: 'Jogadores',
+                        data: contagem,
+                        backgroundColor: cores,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                }
+            });
+        }
+
+        // Gráfico de barras deitadas: as 6 Lendas mais escolhidas
+        function mostrarLendas(lista) {
+            let ranking = [];
+            for (let i = 0; i < nomesLendas.length; i++) {
+                let total = 0;
+                for (let j = 0; j < lista.length; j++) {
+                    if (lista[j].lendas.includes(nomesLendas[i])) {
+                        total++;
+                    }
+                }
+                ranking.push({ nome: nomesLendas[i], porcentagem: Math.round(total / lista.length * 100) });
+            }
+
+            // Coloca as mais escolhidas primeiro
+            ranking.sort(function (a, b) {
+                return b.porcentagem - a.porcentagem;
+            });
+
+            // Separa nomes, valores e cores das 6 primeiras
+            let nomes = [];
+            let valores = [];
+            let cores = [];
+            for (let i = 0; i < 6; i++) {
+                nomes.push(ranking[i].nome);
+                valores.push(ranking[i].porcentagem);
+                if (minhasLendas.includes(ranking[i].nome)) {
+                    cores.push(corDestaque);
+                } else {
+                    cores.push(corNormal);
+                }
+            }
+
+            if (graficoLendas != null) {
+                graficoLendas.destroy();
+            }
+            graficoLendas = new Chart(document.getElementById('grafico_lendas'), {
+                type: 'bar',
+                data: {
+                    labels: nomes,
+                    datasets: [{
+                        label: '% dos jogadores',
+                        data: valores,
+                        backgroundColor: cores,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // barras deitadas
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
+                }
+            });
+        }
+
+        // Gráfico de barras deitadas: jogadores de cada região (sempre de todas as regiões)
+        function mostrarRegioes(regiaoEscolhida) {
+            let contagem = [0, 0, 0, 0];
+            for (let i = 0; i < jogadores.length; i++) {
+                let posicao = regioes.indexOf(jogadores[i].regiao);
+                contagem[posicao]++;
+            }
+
+            // Destaque: a região do filtro ou, se for "todas", a sua região
+            let destaque = regiaoEscolhida;
+            if (regiaoEscolhida == 'todas') {
+                destaque = minhaRegiao;
+                document.getElementById('legenda_regiao').innerHTML = '<b>■</b> Sua região';
+            } else {
+                document.getElementById('legenda_regiao').innerHTML = '<b>■</b> Região escolhida no filtro';
+            }
+
+            let cores = [];
+            for (let i = 0; i < regioes.length; i++) {
+                if (regioes[i] == destaque) {
+                    cores.push(corDestaque);
+                } else {
+                    cores.push(corNormal);
+                }
+            }
+
+            if (graficoRegioes != null) {
+                graficoRegioes.destroy();
+            }
+            graficoRegioes = new Chart(document.getElementById('grafico_regioes'), {
+                type: 'bar',
+                data: {
+                    labels: regioes,
+                    datasets: [{
+                        label: 'Jogadores',
+                        data: contagem,
+                        backgroundColor: cores,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, ticks: { stepSize: 2 } } }
+                }
+            });
+        }
+
+        // Mostra as suas Lendas (com a inicial) embaixo do gráfico de Lendas
+        function mostrarMinhasLendas() {
+            let lista = minhasLendas.split(',');
+            let html = '';
+            for (let i = 0; i < lista.length; i++) {
+                html += '<span class="lenda"><b class="inicial cor' + (i % 3) + '">' + lista[i].charAt(0) + '</b>' + lista[i] + '</span>';
+            }
+            document.getElementById('minhas_lendas').innerHTML = html;
+        }
+
+        // Lista com os 5 jogadores mais compatíveis
+        function mostrarMaisCompativeis(lista) {
+            for (let i = 0; i < lista.length; i++) {
+                lista[i].compatibilidade = calcularCompatibilidade(lista[i]);
+            }
+            lista.sort(function (a, b) {
+                return b.compatibilidade - a.compatibilidade;
+            });
+
+            let quantidade = 5;
+            if (lista.length < 5) {
+                quantidade = lista.length;
+            }
+
+            let html = '';
+            for (let i = 0; i < quantidade; i++) {
+                let jogador = lista[i];
+                html += '<li>' +
+                    '<div class="avatar">' + jogador.nick.substring(0, 2).toUpperCase() + '</div>' +
+                    '<div class="info"><b>' + jogador.nick + '</b><small>' + calcularDivisao(jogador.elo) + ' · ' + jogador.elo + ' · ' + jogador.regiao + '</small></div>' +
+                    '<span class="porcentagem">' + jogador.compatibilidade + '%</span>' +
+                    '<button class="botao botao-secundario" onclick="verPerfil(' + jogador.id + ')">Ver</button>' +
+                    '</li>';
+            }
+            document.getElementById('lista_top').innerHTML = html;
+        }
+
+        // Guarda qual jogador foi escolhido para a página de perfil saber quem mostrar
+        function verPerfil(id) {
+            sessionStorage.PERFIL_ID = id;
+            window.location.href = 'perfil.html';
+        }
+
+        function sair() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        // Quando a página abre: só quem entrou na conta pode ver o dashboard
+        if (meuNick == undefined) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('nome_usuario').innerText = meuNick;
+            mostrarMinhasLendas();
+            atualizarDashboard();
+        }
+    </script>
+</body>
+
+</html>
