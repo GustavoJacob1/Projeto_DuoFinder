@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar dupla | DuoFinder</title>
+    <link rel="icon" href="assets/icon/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="css/buscar.css">
+</head>
+
+<body>
+    <header class="topo">
+        <div class="container">
+            <a class="logo" href="index.html">
+                <span class="logo-icone">
+                    <svg class="icone" viewBox="0 0 24 24">
+                        <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" /><line x1="13" x2="19" y1="19" y2="13" /><line x1="16" x2="20" y1="16" y2="20" /><line x1="19" x2="21" y1="21" y2="19" />
+                        <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" /><line x1="5" x2="9" y1="14" y2="18" /><line x1="7" x2="4" y1="17" y2="20" /><line x1="3" x2="5" y1="19" y2="21" />
+                    </svg>
+                </span>
+                <span class="logo-texto"><small>BRAWLHALLA</small><b>Duo<em>Finder</em></b></span>
+            </a>
+            <nav class="menu">
+                <a href="buscar.html" class="ativo">Buscar dupla</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="meu-perfil.html">Meu perfil</a>
+            </nav>
+            <div class="acoes-topo">
+                <span class="usuario-logado" id="span_usuario"></span>
+                <button class="botao botao-simples" onclick="sair()">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="titulo-pagina">
+            <h1>Buscar dupla</h1>
+            <p class="texto-apagado" id="p_meus_dados"></p>
+        </div>
+
+        <div class="busca">
+            <aside class="card filtros">
+                <h2>Filtros</h2>
+
+                <div class="campo">
+                    <label for="ipt_distancia">Distância máxima de Elo: <b id="b_distancia">±150</b></label>
+                    <input class="faixa" type="range" id="ipt_distancia" min="50" max="400" step="50" value="150" oninput="buscar()">
+                </div>
+
+                <div class="campo">
+                    <label for="ipt_nome">Nickname</label>
+                    <input type="text" id="ipt_nome" placeholder="Buscar por nickname" oninput="buscar()">
+                </div>
+
+                <div class="campo">
+                    <label for="slc_regiao">Região</label>
+                    <select id="slc_regiao" onchange="buscar()">
+                        <option value="todas">Todas as regiões</option>
+                        <option value="BRZ">Brasil (BRZ)</option>
+                        <option value="US-E">EUA Leste (US-E)</option>
+                        <option value="EU">Europa (EU)</option>
+                        <option value="SA">África do Sul (SA)</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="slc_lenda">Lenda favorita</label>
+                    <select id="slc_lenda" onchange="buscar()">
+                        <option value="todas">Qualquer uma</option>
+                    </select>
+                </div>
+
+                <label class="opcao" id="label_discord"><input type="checkbox" onchange="alternarDiscord()"> Só quem tem Discord</label>
+
+                <button class="botao botao-secundario botao-inteiro" onclick="limparFiltros()">Limpar filtros</button>
+            </aside>
+
+            <section class="resultados">
+                <p class="total" id="p_total"></p>
+                <div class="grade" id="div_resultado"></div>
+                <div class="vazio" id="div_vazio" style="display: none;">
+                    Nenhum jogador encontrado com esses filtros.<br>
+                    Tente aumentar a distância de Elo ou escolher outra região.
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="modal" id="div_modal">
+        <div class="modal-caixa">
+            <h2 id="h2_discord">Chamar no Discord</h2>
+            <p class="texto-apagado">Adicione como amigo e combinem a dupla.</p>
+            <div class="discord-usuario">
+                <div>
+                    <span class="rotulo">Usuário do Discord</span>
+                    <b id="b_discord"></b>
+                </div>
+            </div>
+            <ol>
+                <li>Abra o Discord e vá em "Adicionar amigo"</li>
+                <li>Cole o usuário e envie o pedido de amizade</li>
+                <li>Combinem o horário e partam para o 2v2 ranqueado</li>
+            </ol>
+            <div class="aviso">O DuoFinder não tem chat próprio: a conversa acontece no Discord.</div>
+            <div class="modal-botoes">
+                <button class="botao botao-simples botao-grande" onclick="fecharDiscord()">Fechar</button>
+                <a class="botao botao-discord botao-grande" href="https://discord.com/app" target="_blank">Abrir Discord</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="rodape">
+        <div class="container">
+            <b>DuoFinder</b> · Projeto Individual · SPTech · Análise e Desenvolvimento de Sistemas · 2026
+        </div>
+    </footer>
+
+    <script src="js/lendas.js"></script>
+
+    <script>
+        let jogadores = [];
+
+        let meuId = localStorage.ID_USUARIO;
+        let meuNick = localStorage.NICK_USUARIO;
+        let meuElo = Number(localStorage.ELO_USUARIO);
+        let minhaRegiao = localStorage.REGIAO_USUARIO;
+        let meuHorario = localStorage.HORARIO_USUARIO;
+        let minhasLendas = localStorage.LENDAS_USUARIO;
+
+        let divisao = '';
+        let soDiscord = false;
+
+        function carregarJogadores() {
+            fetch(`/usuarios/listar/${meuId}`).then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(function (lista) {
+                        // No banco as Lendas vêm como texto ('Hattori,Orion,Kor').
+                        // O split transforma em vetor: ['Hattori', 'Orion', 'Kor']
+                        for (let i = 0; i < lista.length; i++) {
+                            lista[i].lendas = lista[i].lendas.split(',');
+                        }
+
+                        jogadores = lista;
+                        buscar();
+                    });
+                } else {
+                    p_total.innerHTML = 'Não foi possível carregar os jogadores.';
+                }
+            });
+        }
+
+        // Guarda o resultado na variável divisao
+        function calcularDivisao(elo) {
+            if (elo >= 2000) {
+                divisao = 'Diamante';
+            } else if (elo >= 1680) {
+                divisao = 'Platina';
+            } else if (elo >= 1390) {
+                divisao = 'Ouro';
+            } else if (elo >= 1130) {
+                divisao = 'Prata';
+            } else if (elo >= 910) {
+                divisao = 'Bronze';
+            } else {
+                divisao = 'Tin';
+            }
+        }
+
+        // Começa em 92%, perde 1 ponto a cada 10 de diferença de Elo, ganha 2 por Lenda em comum,
+        // ganha 2 se joga no mesmo horário e perde 8 se for de outra região.
+        // O resultado fica guardado no próprio jogador (jogador.compatibilidade)
+        function calcularCompatibilidade(jogador) {
+            let diferenca = jogador.elo - meuElo;
+
+            if (diferenca < 0) {
+                diferenca = diferenca * -1;
+            }
+
+            let pontos = 92 - diferenca / 10;
+
+            for (let i = 0; i < jogador.lendas.length; i++) {
+                if (minhasLendas.includes(jogador.lendas[i])) {
+                    pontos = pontos + 2;
+                }
+            }
+
+            if (jogador.horario == meuHorario) {
+                pontos = pontos + 2;
+            }
+
+            if (jogador.regiao != minhaRegiao) {
+                pontos = pontos - 8;
+            }
+
+            if (pontos > 99) {
+                pontos = 99;
+            } else if (pontos < 10) {
+                pontos = 10;
+            }
+
+            jogador.compatibilidade = Number(pontos.toFixed(0));
+        }
+
+        function buscar() {
+            let distancia = Number(ipt_distancia.value);
+            let nome = ipt_nome.value.toLowerCase();
+            let regiao = slc_regiao.value;
+            let lenda = slc_lenda.value;
+
+            b_distancia.innerHTML = `±${distancia}`;
+
+            // 1. Separa os jogadores que passam em todos os filtros
+            let encontrados = [];
+
+            for (let i = 0; i < jogadores.length; i++) {
+                let jogador = jogadores[i];
+                let passou = true;
+                let diferenca = jogador.elo - meuElo;
+
+                if (diferenca < 0) {
+                    diferenca = diferenca * -1;
+                }
+
+                if (diferenca > distancia) {
+                    passou = false;
+                }
+                if (nome != '' && jogador.nick.toLowerCase().includes(nome) == false) {
+                    passou = false;
+                }
+                if (regiao != 'todas' && jogador.regiao != regiao) {
+                    passou = false;
+                }
+                if (lenda != 'todas' && jogador.lendas.includes(lenda) == false) {
+                    passou = false;
+                }
+                if (soDiscord && jogador.discord == '') {
+                    passou = false;
+                }
+
+                if (passou) {
+                    calcularCompatibilidade(jogador);
+                    encontrados.push(jogador);
+                }
+            }
+
+            // 2. Ordena do mais compatível para o menos compatível.
+            // Compara cada jogador com o próximo e troca os dois de lugar se estiverem na ordem errada.
+            for (let i = 0; i < encontrados.length; i++) {
+                for (let j = 0; j < encontrados.length - 1; j++) {
+                    if (encontrados[j].compatibilidade < encontrados[j + 1].compatibilidade) {
+                        let troca = encontrados[j];
+                        encontrados[j] = encontrados[j + 1];
+                        encontrados[j + 1] = troca;
+                    }
+                }
+            }
+
+            // 3. Mostra os cards na tela
+            div_resultado.innerHTML = '';
+
+            for (let i = 0; i < encontrados.length; i++) {
+                let jogador = encontrados[i];
+                let diferenca = jogador.elo - meuElo;
+                let textoDiferenca = `${diferenca} de Elo`;
+
+                if (diferenca > 0) {
+                    textoDiferenca = `+${diferenca} de Elo`;
+                }
+
+                let htmlLendas = '';
+
+                for (let j = 0; j < jogador.lendas.length; j++) {
+                    let nomeLenda = jogador.lendas[j];
+                    procurarImagemLenda(nomeLenda);
+                    htmlLendas += `<span class="lenda"><img class="lenda-foto" src="${imagemLenda}" alt="${nomeLenda}">${nomeLenda}</span>`;
+                }
+
+                let botaoDiscord = `<button class="botao botao-secundario" disabled>Sem Discord</button>`;
+
+                if (jogador.discord != '') {
+                    botaoDiscord = `<button class="botao botao-discord" onclick="abrirDiscord(${jogador.id})">Discord</button>`;
+                }
+
+                calcularDivisao(jogador.elo);
+
+                div_resultado.innerHTML += `
+                    <div class="card-jogador">
+                        <div class="card-topo">
+                            <div class="avatar">${jogador.nick.substring(0, 2).toUpperCase()}</div>
+                            <div class="card-nome"><h3>${jogador.nick}</h3><span>${jogador.regiao} · Joga de ${jogador.horario.toLowerCase()}</span></div>
+                            <div class="card-compat"><b>${jogador.compatibilidade}%</b><span>compatível</span></div>
+                        </div>
+                        <div class="barra-compat"><div style="width: ${jogador.compatibilidade}%;"></div></div>
+                        <div class="card-elo">
+                            <img class="emblema" src="assets/divisoes/${divisao.toLowerCase()}.png" alt="${divisao}">
+                            <div><small>Elo 2v2</small><b>${jogador.elo}</b></div>
+                            <div class="direita"><span class="divisao ${divisao.toLowerCase()}">${divisao}</span><small>${textoDiferenca}</small></div>
+                        </div>
+                        <div><span class="rotulo">Lendas favoritas</span><div class="lendas">${htmlLendas}</div></div>
+                        <div class="card-botoes">
+                            <button class="botao botao-secundario" onclick="verPerfil(${jogador.id})">Ver perfil</button>
+                            ${botaoDiscord}
+                        </div>
+                    </div>
+                `;
+            }
+
+            p_total.innerHTML = `${encontrados.length} jogador(es) encontrado(s)`;
+
+            if (encontrados.length == 0) {
+                div_vazio.style.display = 'block';
+            } else {
+                div_vazio.style.display = 'none';
+            }
+        }
+
+        function alternarDiscord() {
+            soDiscord = !soDiscord;
+            buscar();
+        }
+
+        function limparFiltros() {
+            ipt_distancia.value = 150;
+            ipt_nome.value = '';
+            slc_regiao.value = 'todas';
+            slc_lenda.value = 'todas';
+
+            // Desenha a caixinha de novo, desmarcada
+            soDiscord = false;
+            label_discord.innerHTML = '<input type="checkbox" onchange="alternarDiscord()"> Só quem tem Discord';
+
+            buscar();
+        }
+
+        // Guarda o jogador escolhido para a página perfil.html saber quem mostrar
+        function verPerfil(id) {
+            localStorage.PERFIL_ID = id;
+            window.location = 'perfil.html';
+        }
+
+        function abrirDiscord(id) {
+            for (let i = 0; i < jogadores.length; i++) {
+                if (jogadores[i].id == id) {
+                    h2_discord.innerHTML = `Chamar ${jogadores[i].nick} no Discord`;
+                    b_discord.innerHTML = jogadores[i].discord;
+                }
+            }
+
+            div_modal.style.display = 'flex';
+        }
+
+        function fecharDiscord() {
+            div_modal.style.display = 'none';
+        }
+
+        function sair() {
+            localStorage.clear();
+            window.location = 'index.html';
+        }
+
+        // Só quem fez login pode ver esta página
+        if (meuNick == undefined) {
+            window.location = 'login.html';
+        } else {
+            calcularDivisao(meuElo);
+            // Coloca as Lendas no filtro "Lenda favorita"
+            for (let i = 0; i < todasLendas.length; i++) {
+                slc_lenda.innerHTML += `<option>${todasLendas[i].nome}</option>`;
+            }
+
+            span_usuario.innerHTML = meuNick;
+            p_meus_dados.innerHTML = `Seu Elo: <b>${meuElo}</b> · ${divisao} · ${minhaRegiao} · <a href="meu-perfil.html">Atualizar meu Elo</a>`;
+            carregarJogadores();
+        }
+    </script>
+</body>
+
+</html>

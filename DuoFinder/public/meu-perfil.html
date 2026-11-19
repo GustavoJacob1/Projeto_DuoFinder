@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu perfil | DuoFinder</title>
+    <link rel="icon" href="assets/icon/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="css/meu-perfil.css">
+</head>
+
+<body>
+    <header class="topo">
+        <div class="container">
+            <a class="logo" href="index.html">
+                <span class="logo-icone">
+                    <svg class="icone" viewBox="0 0 24 24">
+                        <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" /><line x1="13" x2="19" y1="19" y2="13" /><line x1="16" x2="20" y1="16" y2="20" /><line x1="19" x2="21" y1="21" y2="19" />
+                        <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" /><line x1="5" x2="9" y1="14" y2="18" /><line x1="7" x2="4" y1="17" y2="20" /><line x1="3" x2="5" y1="19" y2="21" />
+                    </svg>
+                </span>
+                <span class="logo-texto"><small>BRAWLHALLA</small><b>Duo<em>Finder</em></b></span>
+            </a>
+            <nav class="menu">
+                <a href="buscar.html">Buscar dupla</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="meu-perfil.html" class="ativo">Meu perfil</a>
+            </nav>
+            <div class="acoes-topo">
+                <span class="usuario-logado" id="span_usuario"></span>
+                <button class="botao botao-simples" onclick="sair()">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="titulo-pagina">
+            <h1>Meu perfil</h1>
+            <p class="texto-apagado">Mantenha seu Elo atualizado para receber sugestões de dupla mais precisas.</p>
+        </div>
+
+        <div class="meu-perfil">
+            <!-- oninput: qualquer mudança nos campos atualiza a pré-visualização -->
+            <div class="card formulario-grande" oninput="atualizarPrevia()">
+                <h2>Dados do jogador</h2>
+                <div class="duas-colunas">
+                    <div class="campo">
+                        <label for="ipt_nick">Nickname no jogo</label>
+                        <input type="text" id="ipt_nick" maxlength="16">
+                    </div>
+                    <div class="campo">
+                        <label for="ipt_email">E-mail</label>
+                        <input type="email" id="ipt_email" maxlength="50">
+                    </div>
+                </div>
+                <div class="duas-colunas">
+                    <div class="campo">
+                        <label for="ipt_elo">Elo atual no 2v2</label>
+                        <input type="number" id="ipt_elo">
+                        <span class="ajuda">Divisão: <span id="span_divisao"></span></span>
+                    </div>
+                    <div class="campo">
+                        <label for="slc_regiao">Região</label>
+                        <select id="slc_regiao">
+                            <option value="BRZ">Brasil (BRZ)</option>
+                            <option value="US-E">EUA Leste (US-E)</option>
+                            <option value="EU">Europa (EU)</option>
+                            <option value="SA">África do Sul (SA)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <span class="titulo-campo">Lendas favoritas (até 3)</span>
+                <span class="contador" id="span_contador"></span>
+                <input type="text" class="busca-lendas" id="ipt_busca_lenda" placeholder="Buscar Lenda pelo nome..." oninput="montarLendas()">
+                <div class="lista-lendas" id="div_lendas"></div>
+
+                <hr>
+                <h2>Contato e preferências</h2>
+                <div class="duas-colunas">
+                    <div class="campo">
+                        <label for="ipt_discord">Discord</label>
+                        <input type="text" id="ipt_discord" maxlength="40" placeholder="seu.usuario">
+                    </div>
+                    <div class="campo">
+                        <label for="slc_horario">Horário em que costuma jogar</label>
+                        <select id="slc_horario">
+                            <option>Manhã</option>
+                            <option>Tarde</option>
+                            <option>Noite</option>
+                            <option>Madrugada</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="opcao" id="label_mostrar_discord"></label>
+                <div class="campo">
+                    <label for="txt_bio">Sobre você (opcional)</label>
+                    <textarea id="txt_bio" maxlength="200" placeholder="Seu estilo de jogo, seu objetivo na temporada..."></textarea>
+                </div>
+
+                <div class="mensagem" id="div_mensagem"></div>
+                <div class="final-formulario">
+                    <button class="botao botao-simples" onclick="carregarDados()">Descartar alterações</button>
+                    <button class="botao botao-principal botao-grande" onclick="salvar()">Salvar alterações</button>
+                </div>
+
+                <hr>
+                <div class="zona-perigo">
+                    <div>
+                        <b>Excluir conta</b>
+                        <p class="texto-apagado">Apaga seu perfil e você some da busca. Não dá para desfazer.</p>
+                    </div>
+                    <button class="botao botao-perigo" onclick="excluirConta()">Excluir minha conta</button>
+                </div>
+            </div>
+
+            <aside class="previa">
+                <span class="sobretitulo">Pré-visualização</span>
+                <p>É assim que outros jogadores veem seu card na busca. Muda enquanto você edita.</p>
+                <div class="card-jogador">
+                    <div class="card-topo">
+                        <div class="avatar" id="div_previa_avatar"></div>
+                        <div class="card-nome">
+                            <h3 id="h3_previa_nick"></h3>
+                            <span id="span_previa_regiao"></span>
+                        </div>
+                        <div class="card-compat"><b>Você</b><span>seu card</span></div>
+                    </div>
+                    <div class="card-elo">
+                        <span id="span_previa_emblema"></span>
+                        <div><small>Elo 2v2</small><b id="b_previa_elo"></b></div>
+                        <div class="direita"><span id="span_previa_divisao"></span></div>
+                    </div>
+                    <div>
+                        <span class="rotulo">Lendas favoritas</span>
+                        <div class="lendas" id="div_previa_lendas"></div>
+                    </div>
+                    <span class="rotulo" id="span_previa_discord"></span>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="container">
+            <b>DuoFinder</b> · Projeto Individual · SPTech · Análise e Desenvolvimento de Sistemas · 2026
+        </div>
+    </footer>
+
+    <script src="js/lendas.js"></script>
+
+    <script>
+        let lendas = [];
+        let lendaClicada = '';
+        let divisao = '';
+        let mostrarDiscord = true;
+
+        // Guarda o resultado na variável divisao
+        function calcularDivisao(elo) {
+            if (elo >= 2000) {
+                divisao = 'Diamante';
+            } else if (elo >= 1680) {
+                divisao = 'Platina';
+            } else if (elo >= 1390) {
+                divisao = 'Ouro';
+            } else if (elo >= 1130) {
+                divisao = 'Prata';
+            } else if (elo >= 910) {
+                divisao = 'Bronze';
+            } else {
+                divisao = 'Tin';
+            }
+        }
+
+        // Mesmo jeito do cadastro: desenha as Lendas que combinam com a busca
+        // e deixa marcadas as que estão no vetor lendas
+        function montarLendas() {
+            let texto = ipt_busca_lenda.value.toLowerCase();
+            div_lendas.innerHTML = '';
+
+            for (let i = 0; i < todasLendas.length; i++) {
+                let nome = todasLendas[i].nome;
+                let marcada = '';
+
+                if (lendas.includes(nome)) {
+                    marcada = 'checked';
+                }
+
+                if (nome.toLowerCase().includes(texto)) {
+                    div_lendas.innerHTML += `
+                        <label>
+                            <input type="checkbox" ${marcada} onchange="lendaClicada = todasLendas[${i}].nome; marcarLenda()">
+                            <span><img class="icone-lenda" src="${todasLendas[i].imagem}" alt="${nome}">${nome}</span>
+                        </label>
+                    `;
+                }
+            }
+        }
+
+        function marcarLenda() {
+            let novaLista = [];
+            let estavaNaLista = false;
+
+            for (let i = 0; i < lendas.length; i++) {
+                if (lendas[i] == lendaClicada) {
+                    estavaNaLista = true;
+                } else {
+                    novaLista.push(lendas[i]);
+                }
+            }
+
+            if (estavaNaLista == false && lendas.length == 3) {
+                montarLendas();
+                span_contador.innerHTML = '3 de 3 escolhidas · Desmarque uma Lenda para trocar';
+            } else {
+                if (estavaNaLista == false) {
+                    novaLista.push(lendaClicada);
+                }
+
+                lendas = novaLista;
+                span_contador.innerHTML = `${lendas.length} de 3 escolhidas`;
+            }
+
+            atualizarPrevia();
+        }
+
+        function alternarDiscord() {
+            mostrarDiscord = !mostrarDiscord;
+            atualizarPrevia();
+        }
+
+        // Coloca nos campos os dados de quem está logado
+        function carregarDados() {
+            ipt_nick.value = localStorage.NICK_USUARIO;
+            ipt_email.value = localStorage.EMAIL_USUARIO;
+            ipt_elo.value = localStorage.ELO_USUARIO;
+            slc_regiao.value = localStorage.REGIAO_USUARIO;
+            ipt_discord.value = localStorage.DISCORD_USUARIO;
+            slc_horario.value = localStorage.HORARIO_USUARIO;
+            txt_bio.value = localStorage.BIO_USUARIO;
+
+            // Desenha a caixinha "Mostrar meu Discord" já marcada ou desmarcada, igual ao que está salvo
+            let marcada = '';
+            mostrarDiscord = false;
+
+            if (localStorage.MOSTRAR_DISCORD_USUARIO == 'sim') {
+                marcada = 'checked';
+                mostrarDiscord = true;
+            }
+
+            label_mostrar_discord.innerHTML = `<input type="checkbox" ${marcada} onchange="alternarDiscord()"> Mostrar meu Discord para outros jogadores`;
+
+            lendas = localStorage.LENDAS_USUARIO.split(',');
+            montarLendas();
+            span_contador.innerHTML = `${lendas.length} de 3 escolhidas`;
+
+            div_mensagem.innerHTML = '';
+            atualizarPrevia();
+        }
+
+        // Atualiza o card da direita com o que está escrito nos campos
+        function atualizarPrevia() {
+            let nick = ipt_nick.value;
+            let elo = Number(ipt_elo.value);
+            let discord = ipt_discord.value;
+
+            calcularDivisao(elo);
+
+            div_previa_avatar.innerHTML = nick.substring(0, 2).toUpperCase();
+            h3_previa_nick.innerHTML = nick;
+            span_previa_regiao.innerHTML = slc_regiao.value;
+            b_previa_elo.innerHTML = elo;
+            span_previa_divisao.innerHTML = `<span class="divisao ${divisao.toLowerCase()}">${divisao}</span>`;
+            span_previa_emblema.innerHTML = `<img class="emblema" src="assets/divisoes/${divisao.toLowerCase()}.png" alt="${divisao}">`;
+            span_divisao.innerHTML = divisao;
+
+            div_previa_lendas.innerHTML = '';
+
+            for (let i = 0; i < lendas.length; i++) {
+                procurarImagemLenda(lendas[i]);
+                div_previa_lendas.innerHTML += `<span class="lenda"><img class="lenda-foto" src="${imagemLenda}" alt="${lendas[i]}">${lendas[i]}</span>`;
+            }
+
+            if (mostrarDiscord && discord != '') {
+                span_previa_discord.innerHTML = `Discord visível: ${discord}`;
+            } else {
+                span_previa_discord.innerHTML = 'Discord escondido';
+            }
+        }
+
+        function salvar() {
+            let nick = ipt_nick.value;
+            let email = ipt_email.value;
+            let elo = Number(ipt_elo.value);
+            let regiao = slc_regiao.value;
+            let discord = ipt_discord.value;
+            let horario = slc_horario.value;
+            let bio = txt_bio.value;
+            let mostrarDiscordTexto = 'nao';
+
+            if (mostrarDiscord) {
+                mostrarDiscordTexto = 'sim';
+            }
+
+            div_mensagem.className = 'mensagem erro';
+
+            if (nick.length < 3) {
+                div_mensagem.innerHTML = 'O nickname precisa ter pelo menos 3 caracteres.';
+            } else if (email.includes('@') == false || email.includes('.') == false) {
+                div_mensagem.innerHTML = 'Digite um e-mail válido.';
+            } else if (elo < 200 || elo > 3000) {
+                div_mensagem.innerHTML = 'Informe um Elo entre 200 e 3000.';
+            } else if (lendas.length == 0) {
+                div_mensagem.innerHTML = 'Escolha pelo menos 1 Lenda favorita.';
+            } else {
+                fetch(`/usuarios/editar/${localStorage.ID_USUARIO}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        nickServer: nick,
+                        emailServer: email,
+                        eloServer: elo,
+                        regiaoServer: regiao,
+                        lendasServer: lendas.join(','),
+                        discordServer: discord,
+                        mostrarDiscordServer: mostrarDiscordTexto,
+                        horarioServer: horario,
+                        bioServer: bio
+                    })
+                }).then(function (resposta) {
+                    if (resposta.ok) {
+                        localStorage.NICK_USUARIO = nick;
+                        localStorage.EMAIL_USUARIO = email;
+                        localStorage.ELO_USUARIO = elo;
+                        localStorage.REGIAO_USUARIO = regiao;
+                        localStorage.LENDAS_USUARIO = lendas.join(',');
+                        localStorage.DISCORD_USUARIO = discord;
+                        localStorage.MOSTRAR_DISCORD_USUARIO = mostrarDiscordTexto;
+                        localStorage.HORARIO_USUARIO = horario;
+                        localStorage.BIO_USUARIO = bio;
+
+                        span_usuario.innerHTML = nick;
+                        div_mensagem.className = 'mensagem sucesso';
+                        div_mensagem.innerHTML = 'Perfil salvo com sucesso!';
+                    } else {
+                        // Lê o erro que o banco mandou para mostrar a mensagem certa
+                        resposta.text().then(function (erro) {
+                            if (erro.includes('Duplicate')) {
+                                div_mensagem.innerHTML = 'Esse e-mail já está sendo usado por outra conta.';
+                            } else {
+                                div_mensagem.innerHTML = 'Não foi possível salvar. Confira os dados e tente de novo.';
+                            }
+                        });
+                    }
+                }).catch(function () {
+                    div_mensagem.innerHTML = 'Não foi possível conectar ao servidor.';
+                });
+            }
+        }
+
+        function excluirConta() {
+            if (confirm('Tem certeza que quer excluir sua conta? Não dá para desfazer.')) {
+                fetch(`/usuarios/deletar/${localStorage.ID_USUARIO}`, {
+                    method: "DELETE"
+                }).then(function (resposta) {
+                    if (resposta.ok) {
+                        localStorage.clear();
+                        alert('Sua conta foi excluída.');
+                        window.location = 'index.html';
+                    } else {
+                        div_mensagem.className = 'mensagem erro';
+                        div_mensagem.innerHTML = 'Não foi possível excluir a conta.';
+                    }
+                });
+            }
+        }
+
+        function sair() {
+            localStorage.clear();
+            window.location = 'index.html';
+        }
+
+        // Só quem fez login pode ver esta página
+        if (localStorage.NICK_USUARIO == undefined) {
+            window.location = 'login.html';
+        } else {
+            span_usuario.innerHTML = localStorage.NICK_USUARIO;
+            carregarDados();
+        }
+    </script>
+</body>
+
+</html>

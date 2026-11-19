@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DuoFinder | Encontre sua dupla no Brawlhalla</title>
+    <link rel="icon" href="assets/icon/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <header class="topo">
+        <div class="container">
+            <a class="logo" href="index.html">
+                <span class="logo-icone">
+                    <svg class="icone" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" /><line x1="13" x2="19" y1="19" y2="13" /><line x1="16" x2="20" y1="16" y2="20" /><line x1="19" x2="21" y1="21" y2="19" />
+                        <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" /><line x1="5" x2="9" y1="14" y2="18" /><line x1="7" x2="4" y1="17" y2="20" /><line x1="3" x2="5" y1="19" y2="21" />
+                    </svg>
+                </span>
+                <span class="logo-texto"><small>BRAWLHALLA</small><b>Duo<em>Finder</em></b></span>
+            </a>
+            <nav class="menu">
+                <a href="index.html" class="ativo">Início</a>
+                <a href="#como-funciona">Como funciona</a>
+            </nav>
+            <div class="acoes-topo" id="acoes_topo">
+                <a class="botao botao-simples" href="login.html">Entrar</a>
+                <a class="botao botao-principal" href="cadastro.html">Criar conta</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-texto">
+                <span class="etiqueta">Feito para o 2v2 ranqueado</span>
+                <h1>Encontre a <em>dupla certa</em> para subir no 2v2</h1>
+                <p>Conecte-se com jogadores de Elo parecido, veja as Lendas que eles dominam e chame no Discord para formar sua dupla ranqueada.</p>
+                <div class="botoes-hero" id="botoes_hero">
+                    <a class="botao botao-principal botao-grande" href="cadastro.html">Criar conta grátis</a>
+                    <a class="botao botao-secundario botao-grande" href="login.html">Já tenho conta</a>
+                </div>
+                <div class="numeros">
+                    <div><b id="b_jogadores">-</b><span>jogadores cadastrados</span></div>
+                    <div><b>4</b><span>regiões</span></div>
+                    <div><b id="b_lendas">-</b><span>Lendas registradas</span></div>
+                </div>
+            </div>
+
+            <div class="card-dupla">
+                <h3>Dupla sugerida para você</h3>
+                <div class="dupla">
+                    <div class="dupla-jogador">
+                        <div class="avatar">JA</div>
+                        <b>Jacob</b>
+                        <span class="divisao platina">Platina</span>
+                        <p class="texto-apagado">Elo 1820</p>
+                    </div>
+                    <div class="duo">DUO</div>
+                    <div class="dupla-jogador">
+                        <div class="avatar">ZY</div>
+                        <b>Zyphr</b>
+                        <span class="divisao platina">Platina</span>
+                        <p class="texto-apagado">Elo 1865</p>
+                    </div>
+                </div>
+                <span class="rotulo">Compatibilidade: 96%</span>
+                <div class="barra-compat"><div style="width: 96%;"></div></div>
+                <span class="rotulo">Lendas em comum</span>
+                <div class="lendas">
+                    <span class="lenda"><img class="lenda-foto" src="assets/lendas/hattori.png" alt="Hattori">Hattori</span>
+                    <span class="lenda"><img class="lenda-foto" src="assets/lendas/orion.png" alt="Orion">Orion</span>
+                    <span class="lenda"><img class="lenda-foto" src="assets/lendas/kor.png" alt="Kor">Kor</span>
+                </div>
+                <br>
+                <div id="div_botao_dupla">
+                    <a class="botao botao-discord botao-grande botao-inteiro" href="cadastro.html">Chamar no Discord</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao secao-video">
+        <div class="container">
+            <div class="video-texto">
+                <span class="sobretitulo">Viva o competitivo</span>
+                <h2>Grandes vitórias começam com uma boa dupla.</h2>
+                <p>Encontre um parceiro com Elo próximo do seu e aproveite cada partida ranqueada 2v2.</p>
+                <div id="div_botao_video">
+                    <a class="botao botao-principal botao-grande" href="cadastro.html">Registrar agora</a>
+                </div>
+            </div>
+
+            <div class="video">
+                <!-- autoplay: começa sozinho | muted: sem som (o navegador só deixa começar sozinho se estiver mudo) | loop: repete | sem "controls": não aparece botão nenhum -->
+                <div class="video-moldura">
+                    <video src="assets/videos/gameplay-2v2.mp4" poster="assets/imgs/banner-brawlhalla-home.jpg" autoplay muted loop playsinline></video>
+                </div>
+                <p class="legenda-video">Gameplay de Brawlhalla · 2v2</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="secao secao-clara" id="como-funciona">
+        <div class="container">
+            <div class="titulo-secao">
+                <span class="sobretitulo">Como funciona</span>
+                <h2>Três passos até sua próxima dupla</h2>
+                <p class="texto-apagado">O DuoFinder não tem chat nem partidas próprias. Ele conecta você ao jogador certo, e o resto acontece no Discord e no jogo.</p>
+            </div>
+            <div class="passos">
+                <div class="passo">
+                    <span class="numero">1</span>
+                    <h3>Crie seu perfil</h3>
+                    <p>Informe seu nickname, Elo do 2v2, região e até 3 Lendas favoritas. O Discord é opcional.</p>
+                </div>
+                <div class="passo">
+                    <span class="numero">2</span>
+                    <h3>Busque parceiros</h3>
+                    <p>Filtre jogadores por proximidade de Elo, região e Lendas. Os mais compatíveis aparecem primeiro.</p>
+                </div>
+                <div class="passo">
+                    <span class="numero">3</span>
+                    <h3>Chame no Discord</h3>
+                    <p>Gostou do perfil? Copie o Discord do jogador, combine o horário e partiu ranqueada.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="rodape">
+        <div class="container">
+            <b>DuoFinder</b> · Projeto Individual · SPTech · Análise e Desenvolvimento de Sistemas · 2026
+            <p>Projeto acadêmico sem vínculo com a Blue Mammoth Games ou a Ubisoft. Brawlhalla, a arte do banner, das Lendas e das bandeiras de rank pertencem à Blue Mammoth Games / Ubisoft.</p>
+        </div>
+    </footer>
+
+    <script src="js/lendas.js"></script>
+
+    <script>
+        b_lendas.innerHTML = todasLendas.length;
+
+        // O id 0 não existe no banco, então a lista volta com todos os jogadores
+        fetch('/usuarios/listar/0').then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (lista) {
+                    b_jogadores.innerHTML = lista.length;
+                });
+            }
+        });
+
+        // Se a pessoa já fez login, troca os botões de "Entrar" e "Criar conta"
+        if (localStorage.NICK_USUARIO != undefined) {
+            acoes_topo.innerHTML = `
+                <span class="usuario-logado">${localStorage.NICK_USUARIO}</span>
+                <a class="botao botao-principal" href="buscar.html">Buscar dupla</a>
+                <button class="botao botao-simples" onclick="sair()">Sair</button>
+            `;
+
+            botoes_hero.innerHTML = `
+                <a class="botao botao-principal botao-grande" href="buscar.html">Buscar minha dupla</a>
+                <a class="botao botao-secundario botao-grande" href="meu-perfil.html">Meu perfil</a>
+            `;
+
+            div_botao_video.innerHTML = `<a class="botao botao-principal botao-grande" href="buscar.html">Encontrar meu duo</a>`;
+
+            // A dupla do card é só um exemplo, então quem está logado vai para a busca
+            div_botao_dupla.innerHTML = `<a class="botao botao-discord botao-grande botao-inteiro" href="buscar.html">Encontrar minha dupla</a>`;
+        }
+
+        function sair() {
+            localStorage.clear();
+            window.location = 'index.html';
+        }
+    </script>
+</body>
+
+</html>
