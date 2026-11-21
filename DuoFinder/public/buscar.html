@@ -154,41 +154,6 @@
             });
         }
 
-        // Começa em 92%, perde 1 ponto a cada 10 de diferença de Elo, ganha 2 por Lenda em comum,
-        // ganha 2 se joga no mesmo horário e perde 8 se for de outra região.
-        // O resultado fica guardado no próprio jogador (jogador.compatibilidade)
-        function calcularCompatibilidade(jogador) {
-            let diferenca = jogador.elo - meuElo;
-
-            if (diferenca < 0) {
-                diferenca = diferenca * -1;
-            }
-
-            let pontos = 92 - diferenca / 10;
-
-            for (let i = 0; i < jogador.lendas.length; i++) {
-                if (minhasLendas.includes(jogador.lendas[i])) {
-                    pontos = pontos + 2;
-                }
-            }
-
-            if (jogador.horario == meuHorario) {
-                pontos = pontos + 2;
-            }
-
-            if (jogador.regiao != minhaRegiao) {
-                pontos = pontos - 8;
-            }
-
-            if (pontos > 99) {
-                pontos = 99;
-            } else if (pontos < 10) {
-                pontos = 10;
-            }
-
-            jogador.compatibilidade = Number(pontos.toFixed(0));
-        }
-
         function buscar() {
             let distancia = Number(ipt_distancia.value);
             let nome = ipt_nome.value.toLowerCase();
