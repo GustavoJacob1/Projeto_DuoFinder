@@ -150,29 +150,12 @@
     </footer>
 
     <script src="js/lendas.js"></script>
+    <script src="js/duofinder.js"></script>
 
     <script>
         let lendas = [];
         let lendaClicada = '';
-        let divisao = '';
         let mostrarDiscord = true;
-
-        // Guarda o resultado na variável divisao
-        function calcularDivisao(elo) {
-            if (elo >= 2000) {
-                divisao = 'Diamante';
-            } else if (elo >= 1680) {
-                divisao = 'Platina';
-            } else if (elo >= 1390) {
-                divisao = 'Ouro';
-            } else if (elo >= 1130) {
-                divisao = 'Prata';
-            } else if (elo >= 910) {
-                divisao = 'Bronze';
-            } else {
-                divisao = 'Tin';
-            }
-        }
 
         // Mesmo jeito do cadastro: desenha as Lendas que combinam com a busca
         // e deixa marcadas as que estão no vetor lendas

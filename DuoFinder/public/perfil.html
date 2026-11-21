@@ -111,6 +111,7 @@
     </footer>
 
     <script src="js/lendas.js"></script>
+    <script src="js/duofinder.js"></script>
 
     <script>
         let jogadores = [];
@@ -122,7 +123,6 @@
         let meuHorario = localStorage.HORARIO_USUARIO;
         let minhasLendas = localStorage.LENDAS_USUARIO;
 
-        let divisao = '';
 
         // Jogador que esta página vai mostrar
         let jogador = null;
@@ -153,23 +153,6 @@
             div_perfil.style.display = 'none';
             div_nao_encontrado.style.display = 'block';
             div_nao_encontrado.innerHTML = `${mensagem} <a href="buscar.html">Voltar para a busca</a>`;
-        }
-
-        // Guarda o resultado na variável divisao
-        function calcularDivisao(elo) {
-            if (elo >= 2000) {
-                divisao = 'Diamante';
-            } else if (elo >= 1680) {
-                divisao = 'Platina';
-            } else if (elo >= 1390) {
-                divisao = 'Ouro';
-            } else if (elo >= 1130) {
-                divisao = 'Prata';
-            } else if (elo >= 910) {
-                divisao = 'Bronze';
-            } else {
-                divisao = 'Tin';
-            }
         }
 
         // Mesma regra da página de busca. O resultado fica em jogador.compatibilidade

@@ -120,6 +120,7 @@
     </footer>
 
     <script src="js/lendas.js"></script>
+    <script src="js/duofinder.js"></script>
 
     <script>
         let lendas = [];
@@ -198,28 +199,11 @@
 
         function mostrarDivisao() {
             let elo = Number(ipt_elo.value);
-            let divisao = '';
-            let classe = '';
 
-            if (elo >= 2000) {
-                divisao = 'Diamante';
-                classe = 'diamante';
-            } else if (elo >= 1680) {
-                divisao = 'Platina';
-                classe = 'platina';
-            } else if (elo >= 1390) {
-                divisao = 'Ouro';
-                classe = 'ouro';
-            } else if (elo >= 1130) {
-                divisao = 'Prata';
-                classe = 'prata';
-            } else if (elo >= 910) {
-                divisao = 'Bronze';
-                classe = 'bronze';
-            } else {
-                divisao = 'Tin';
-                classe = 'tin';
-            }
+            calcularDivisao(elo);
+
+            // A classe do CSS é o nome da divisão em minúsculas: 'Platina' vira 'platina'
+            let classe = divisao.toLowerCase();
 
             span_divisao.innerHTML = `<span class="divisao ${classe}">${divisao}</span>`;
         }

@@ -119,6 +119,7 @@
     </footer>
 
     <script src="js/lendas.js"></script>
+    <script src="js/duofinder.js"></script>
 
     <script>
         let jogadores = [];
@@ -130,7 +131,6 @@
         let meuHorario = localStorage.HORARIO_USUARIO;
         let minhasLendas = localStorage.LENDAS_USUARIO;
 
-        let divisao = '';
         let soDiscord = false;
 
         function carregarJogadores() {
@@ -152,23 +152,6 @@
             }).catch(function () {
                 p_total.innerHTML = 'Não foi possível conectar ao servidor.';
             });
-        }
-
-        // Guarda o resultado na variável divisao
-        function calcularDivisao(elo) {
-            if (elo >= 2000) {
-                divisao = 'Diamante';
-            } else if (elo >= 1680) {
-                divisao = 'Platina';
-            } else if (elo >= 1390) {
-                divisao = 'Ouro';
-            } else if (elo >= 1130) {
-                divisao = 'Prata';
-            } else if (elo >= 910) {
-                divisao = 'Bronze';
-            } else {
-                divisao = 'Tin';
-            }
         }
 
         // Começa em 92%, perde 1 ponto a cada 10 de diferença de Elo, ganha 2 por Lenda em comum,
