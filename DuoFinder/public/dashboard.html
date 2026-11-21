@@ -177,7 +177,11 @@
                         jogadores = lista;
                         atualizarDashboard();
                     });
+                } else {
+                    alert('Não foi possível carregar os dados do dashboard.');
                 }
+            }).catch(function () {
+                alert('Não foi possível conectar ao servidor.');
             });
         }
 

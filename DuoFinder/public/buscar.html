@@ -149,6 +149,8 @@
                 } else {
                     p_total.innerHTML = 'Não foi possível carregar os jogadores.';
                 }
+            }).catch(function () {
+                p_total.innerHTML = 'Não foi possível conectar ao servidor.';
             });
         }
 
