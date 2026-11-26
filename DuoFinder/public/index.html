@@ -141,6 +141,7 @@
     </footer>
 
     <script src="js/lendas.js"></script>
+    <script src="js/duofinder.js"></script>
 
     <script>
         b_lendas.innerHTML = todasLendas.length;
@@ -171,11 +172,6 @@
 
             // A dupla do card é só um exemplo, então quem está logado vai para a busca
             div_botao_dupla.innerHTML = `<a class="botao botao-discord botao-grande botao-inteiro" href="buscar.html">Encontrar minha dupla</a>`;
-        }
-
-        function sair() {
-            localStorage.clear();
-            window.location = 'index.html';
         }
     </script>
 </body>

@@ -363,11 +363,6 @@
             }
         }
 
-        function sair() {
-            localStorage.clear();
-            window.location = 'index.html';
-        }
-
         // Só quem fez login pode ver esta página
         if (localStorage.NICK_USUARIO == undefined) {
             window.location = 'login.html';

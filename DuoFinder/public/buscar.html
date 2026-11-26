@@ -307,11 +307,6 @@
             div_modal.style.display = 'none';
         }
 
-        function sair() {
-            localStorage.clear();
-            window.location = 'index.html';
-        }
-
         // Só quem fez login pode ver esta página
         if (meuNick == undefined) {
             window.location = 'login.html';

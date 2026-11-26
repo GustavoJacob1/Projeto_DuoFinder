@@ -2,6 +2,12 @@
 // Cada página carrega este arquivo com <script src="js/duofinder.js"></script>,
 // igual ao js/lendas.js. Assim a regra fica escrita num lugar só.
 
+// Botão "Sair": apaga os dados de quem estava logado e volta para a página inicial
+function sair() {
+    localStorage.clear();
+    window.location = 'index.html';
+}
+
 // Guarda o nome da divisão calculada por calcularDivisao
 let divisao = '';
 
