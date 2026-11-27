@@ -43,6 +43,8 @@ a:hover {
     font-family: 'Chakra Petch', Arial, sans-serif;
     font-size: 13px;
     font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     color: #6BE3F8;
 }
 
