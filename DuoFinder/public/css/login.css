@@ -475,20 +475,3 @@ a:hover {
 .conta-teste b {
     color: #6BE3F8;
 }
-
-@media (max-width: 900px) {
-    .login {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .login-painel {
-        width: 100%;
-        position: static;
-    }
-
-    .login-painel .card-jogador,
-    .login-fundo {
-        display: none;
-    }
-}

@@ -605,33 +605,3 @@ a:hover {
 .modal-botoes .botao {
     flex: 1;
 }
-
-@media (max-width: 900px) {
-    .busca {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .filtros {
-        width: 100%;
-        position: static;
-    }
-
-    .grade {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 600px) {
-    .grade {
-        grid-template-columns: 1fr;
-    }
-
-    .card {
-        padding: 20px;
-    }
-
-    .titulo-pagina h1 {
-        font-size: 32px;
-    }
-}
