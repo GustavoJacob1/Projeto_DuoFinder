@@ -259,7 +259,11 @@
                 `;
             }
 
-            p_total.innerHTML = `${encontrados.length} jogador(es) encontrado(s)`;
+            if (encontrados.length == 1) {
+                p_total.innerHTML = `1 jogador encontrado`;
+            } else {
+                p_total.innerHTML = `${encontrados.length} jogadores encontrados`;
+            }
 
             if (encontrados.length == 0) {
                 div_vazio.style.display = 'block';
